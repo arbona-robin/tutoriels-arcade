@@ -399,6 +399,49 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`drapeau`, function (sprite, l
 })
 ```
 
+## La manette
+
+Branche ta manette micro:bit : elle sonne et s'allume quand il se passe quelque chose dans le jeu.
+
+- :game: Dans ``||manette:Manette||``, mets ``||manette:manette réagir bip||`` dans **quand bouton A est appuyé**, sous le saut.
+- :game: Dans le bloc des **pièces**, ajoute ``||manette:manette réagir||`` et choisis **bien**.
+- :game: Dans le **si** de la **lave**, ajoute ``||manette:manette réagir||`` avec **mal**, puis ``||manette:manette afficher||``. Mets-y ``||info:vie||``, de la catégorie ``||info:Info||``.
+- :game: Dans le bloc du **drapeau**, ajoute ``||manette:manette réagir||`` avec **gagne**, avant **jeu terminé**.
+
+Ouvre la page relais, connecte la manette et joue : incline pour avancer, A pour sauter.
+
+```blocks
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (heros.isHittingTile(CollisionDirection.Bottom)) {
+        heros.vy = -200
+        // @highlight
+        manette.reagir(ReactionManette.Bip)
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`piece`, function (sprite, location) {
+    tiles.setTileAt(location, assets.tile`transparency16`)
+    info.changeScoreBy(1)
+    // @highlight
+    manette.reagir(ReactionManette.Bien)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`lave`, function (sprite, location) {
+    if (heros.tileKindAt(TileDirection.Center, assets.tile`lave`)) {
+        info.changeLifeBy(-1)
+        tiles.placeOnTile(heros, tiles.getTileLocation(1, 3))
+        // @highlight
+        manette.reagir(ReactionManette.Mal)
+        // @highlight
+        manette.afficher(info.life())
+    }
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`drapeau`, function (sprite, location) {
+    // @highlight
+    manette.reagir(ReactionManette.Gagne)
+    game.over(true)
+})
+let heros: Sprite = null
+```
+
 ## À toi de jouer @showdialog
 
 Ton jeu de plateforme marche. Maintenant, rends-le à toi :
@@ -406,7 +449,7 @@ Ton jeu de plateforme marche. Maintenant, rends-le à toi :
 - clique sur l'image du niveau pour le **redessiner** : allonge-le, ajoute des trous, des pièces, de la lave ;
 - dessine tes propres tuiles avec le pinceau de l'éditeur ;
 - ajoute des **ennemis** qui patrouillent, comme dans le jeu de tir ;
-- branche ta **manette** : un bip au saut, un son quand tu prends une pièce.
+- donne d'autres réactions à ta **manette** : un chiffre pour le score, un son quand tu perds.
 
 ```blockconfig.global
 let heros: Sprite = null
