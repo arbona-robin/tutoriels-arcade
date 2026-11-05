@@ -1,0 +1,16 @@
+{
+    "name": "tutoriels-arcade",
+    "description": "Tutoriels MakeCode Arcade en français et extension manette micro:bit",
+    "dependencies": {
+        "device": "*"
+    },
+    "files": [
+        "README.md",
+        "manette.ts",
+        "plateforme.md"
+    ],
+    "supportedTargets": [
+        "arcade"
+    ],
+    "preferredEditor": "blocksprj"
+}
