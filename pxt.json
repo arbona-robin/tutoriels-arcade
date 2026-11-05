@@ -1,6 +1,7 @@
 {
     "name": "tutoriels-arcade",
-    "description": "Tutoriels MakeCode Arcade en français et extension manette micro:bit",
+    "version": "0.1.0",
+    "description": "Tutoriels MakeCode Arcade en fran\u00e7ais et extension manette micro:bit",
     "dependencies": {
         "device": "*"
     },
