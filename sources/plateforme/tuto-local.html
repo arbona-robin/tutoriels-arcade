@@ -1,0 +1,14 @@
+<!doctype html><meta charset="utf-8"><body style="margin:0">
+<iframe id="ed" src="https://arcade.makecode.com/?lang=fr&controller=1#editor" style="width:100vw;height:100vh;border:0"></iframe>
+<script>
+window.addEventListener("message", e => {
+  const d = e.data || {}; if (d.type === "pxthost" || d.type === "pxteditor") console.log("msg", JSON.stringify(d).slice(0, 200));
+  if (d.type === "pxthost" && d.action === "workspacesync") e.source.postMessage({ type: "pxthost", id: d.id, success: true, projects: [], editor: {} }, "*");
+  else if (d.action === "editorcontentloaded" && !window.charge) { window.charge = true; charger(); }
+  else if (d.type === "pxthost" && d.response) e.source.postMessage({ type: "pxthost", id: d.id, success: true }, "*");
+});
+async function charger() {
+  const md = await (await fetch("tutoriel.md")).text();
+  document.getElementById("ed").contentWindow.postMessage({ type: "pxteditor", action: "importtutorial", markdown: md, response: true, id: "t1" }, "*");
+}
+</script>

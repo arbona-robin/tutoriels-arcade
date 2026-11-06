@@ -1,0 +1,18 @@
+<!doctype html><meta charset="utf-8"><body style="margin:0">
+<iframe id="ed" src="https://arcade.makecode.com/?lang=fr&controller=1#editor" style="width:100vw;height:100vh;border:0"></iframe>
+<script>
+async function charger() {
+  const t = async f => (await fetch(f)).text();
+  const config = { name: "plateforme", description: "", dependencies: { device: "*" }, files: ["main.blocks", "main.ts", "README.md", "tilemap.g.jres", "tilemap.g.ts"] };
+  const text = { "pxt.json": JSON.stringify(config), "main.blocks": "", "README.md": " ", "main.ts": await t(location.search.includes("demo") ? "plat-demo.ts" : "plat-main.ts"), "tilemap.g.jres": await t("plat-tilemap.g.jres"), "tilemap.g.ts": await t("plat-tilemap.g.ts") };
+  const header = { target: "arcade", targetVersion: "", name: "plateforme", editor: "blocksprj", meta: {}, pubId: "", pubCurrent: false, id: "plat-" + Date.now(), recentUse: 0, modificationTime: 0, blobId: null, blobVersion: null, blobCurrent: false, isDeleted: false, githubId: "" };
+  document.getElementById("ed").contentWindow.postMessage({ type: "pxteditor", action: "importproject", project: { header, text }, response: true, id: "p1" }, "*");
+}
+window.addEventListener("message", e => {
+  const d = e.data || {};
+  if (d.type === "pxthost" && d.action === "workspacesync") e.source.postMessage({ type: "pxthost", id: d.id, success: true, projects: [], editor: {} }, "*");
+  else if (d.action === "editorcontentloaded" && !window.charge) { window.charge = true; charger(); }
+  else if (d.type === "pxthost" && d.response) e.source.postMessage({ type: "pxthost", id: d.id, success: true }, "*");
+  else if (d.type === "pxteditor" && d.id === "p1") console.log("import", JSON.stringify(d).slice(0, 200));
+});
+</script>

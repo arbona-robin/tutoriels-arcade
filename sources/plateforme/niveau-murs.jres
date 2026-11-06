@@ -1,0 +1,63 @@
+{
+    "transparency16": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true
+    },
+    "sol": {
+        "data": "hwQQABAAAAB35u7u7u7u7nfm7u7uzu7uZ+bu7O7u7u535u7u7u7u7Hfm7u7O7u7ud+bs7u7u7u535u7u7u7u7mfm7u7u7uzud+buzu7u7u535u7u7u7u7nfm7u7u7u7ud+bO7u7s7u5n5u7u7u7O7nfm7u7u7u7ud+bu7uzu7u535u7u7u7u7g==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "sol"
+    },
+    "terre": {
+        "data": "hwQQABAAAADu7u7u7u7u7u7O7u7u7O7u7u7u7u7u7u7u7u7s7u7O7s7u7u7u7u7u7u7u7u7u7u7u7u7uzu7u7u7u7u7u7u7u7u7s7u7u7O7u7u7u7u7u7u7u7u7u7u7u7uzuzu7u7u7u7u7u7uzu7u7u7u7u7u7u7u7O7u7u7uzu7u7u7u7u7g==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "terre"
+    },
+    "brique": {
+        "data": "hwQQABAAAAC8u7y7vLu8y7y7vLu8u7zLvLu8u7y7vMu8u8zMvLvMzLy7vLu8u7zLvLu8u7y7vMu8u7y7vLu8y8zMvLvMzLzLvLu8u7y7vMu8u7y7vLu8y7y7vLu8u7zLvLvMzLy7zMy8u7y7vLu8y7y7vLu8u7zLvLu8u7y7vMvMzLy7zMy8yw==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "brique"
+    },
+    "piece": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQEREBAAAAABUVVVFAAAAQFUREVUEAABAFVVVVQQAAEAVVVVVBAAAQFVVVVUEAAAAVFVVRQAAAABAREQEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "piece"
+    },
+    "lave": {
+        "data": "hwQQABAAAAAAAABAIiIiIgAAACQiIkIiAABAIiIiIiIAAAAkIiQiIgAAAEAiIiIiAAAAACQiIiIAAAAAJCIiIgAAAEAiQiIiAAAAJCIiIiIAAEAiIiIiIgAAACQiIiIiAAAAQCIkIiIAAABAIiJCIgAAAEAiIiIiAAAAACQiIiIAAAAAJCIiIg==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "lave"
+    },
+    "drapeau": {
+        "data": "hwQQABAAAAAAAAAAAAAAAAAAAAAAAADwAAAAAAAAAP///////////yAiIgAAAAD/ICIiAAAAAPAgIiIAAAAAACAiIgAAAAAAICIiAAAAAAAgIiIAAAAAAAAiAgAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "drapeau"
+    },
+    "niveau1": {
+        "id": "niveau1",
+        "mimeType": "application/mkcd-tilemap",
+        "data": "MTAyODAwMDgwMDAyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAzMDAwMzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwMDAwMDMwMzAzMDAwMDAwMDAwMDAyMDIwMjAyMDIwMDAwMDAwMDAwMDAwMDAzMDAwMzAwMDAwMDAwMDUwMDAwMDIwMDAwMDAwMDAwMDAwMDAyMDIwMjAyMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAzMDAwMDAwMDAwMjAyMDIwMjAyMDAwMDAwMDAwMTAwMDAwMjAwMDAwMDAzMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMjAyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxMDAwMDAxMDEwMTAxMDEwMTAxMDEwMTAwMDAwMDAxMDEwMTAxMDEwMTA0MDQwNDA0MDQwNDAxMDEwMTAxMDAwMDAxMDEwMTA0MDQwNDA0MDEwMTAxMDYwNjA2MDYwNjA2MDYwNjA2MDQwNDA0MDYwNjA2MDYwNjA2MDYwNjA2MDYwNjA2MDYwNjA2MDYwNDA0MDYwNjA2MDYwNjA2MDYwNjA2MDYwMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjAwMDAwMDAwMDAwMDAwMDAyMjIyMDIwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAyMjIyMDIwMDAwMDAwMDAwMDAwMDIyMjIwMjAwMjAwMDAyMDAwMDAwMDAwMDAwMDAwMDAwMjIwMjAwMDAwMDAwMDAwMDIwMDAyMjIyMjIyMjAyMDAyMjIyMjIwMDAwMDAyMjIyMDAyMjAyMDAyMDIyMjIyMjIyMjIwMjAwMjIyMjIyMjIyMjIyMjIyMjAwMjIyMjIyMjIyMg==",
+        "tileset": [
+            "myTiles.transparency16",
+            "myTiles.sol",
+            "myTiles.brique",
+            "myTiles.piece",
+            "myTiles.lave",
+            "myTiles.drapeau",
+            "myTiles.terre"
+        ],
+        "displayName": "niveau1"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myTiles"
+    }
+}

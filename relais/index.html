@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manette Arcade</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fond: #0d0e1f;
+    --panneau: #17192f;
+    --bord: #2a2d4f;
+    --texte: #e8e9f5;
+    --doux: #8d90b8;
+    --cyan: #2ad1ff;
+    --rose: #ff4fa3;
+    --vert: #39d98a;
+    --rouge: #ff5d5d;
+    --touche: #262947;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; color: var(--texte); font-family: Inter, system-ui, sans-serif;
+    background: radial-gradient(1200px 600px at 30% -10%, #1d2050 0%, var(--fond) 60%);
+    display: flex; flex-direction: column;
+  }
+  header {
+    display: flex; align-items: center; gap: 14px; padding: 14px 24px;
+    border-bottom: 1px solid var(--bord);
+  }
+  h1 { font-family: "Press Start 2P", monospace; font-size: 15px; margin: 0; letter-spacing: 1px; }
+  h1 span { color: var(--cyan); }
+  .pastille {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    background: var(--panneau); border: 1px solid var(--bord); color: var(--doux);
+  }
+  .pastille::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--doux); }
+  .pastille.ok { color: var(--vert); border-color: #1f5e44; }
+  .pastille.ok::before { background: var(--vert); box-shadow: 0 0 8px var(--vert); }
+  .pastille.err { color: var(--rouge); border-color: #6b2a2a; }
+  .pastille.err::before { background: var(--rouge); }
+
+  main { flex: 1; display: flex; gap: 24px; padding: 20px 24px; min-height: 0; }
+
+  /* La console d'Arcade fait 640 × 753. Le cadre garde ces proportions ; le lecteur est un peu plus
+     haut que lui et rogné en bas, sinon une barre de défilement apparaît quand la souris bouge. */
+  #cadre { flex: 1; display: flex; justify-content: center; align-items: flex-start; min-width: 0; }
+  #console {
+    height: calc(100vh - 110px); aspect-ratio: 640 / 753; max-width: 100%; overflow: hidden;
+    border-radius: 28px; box-shadow: 0 20px 60px rgba(0, 0, 0, .55), 0 0 0 1px var(--bord);
+  }
+  #console iframe { border: 0; display: block; width: 100%; height: calc(100% + 40px); }
+  #cadre:fullscreen { align-items: center; background: #000; }
+  #cadre:fullscreen #console { height: 100vh; border-radius: 0; box-shadow: none; }
+
+  aside { width: 300px; flex-shrink: 0; display: flex; flex-direction: column; gap: 14px; }
+  .carte { background: var(--panneau); border: 1px solid var(--bord); border-radius: 14px; padding: 16px; }
+  .carte h2 { margin: 0 0 12px; font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--doux); font-weight: 600; }
+
+  button {
+    font: 600 14px Inter, system-ui, sans-serif; color: var(--texte); cursor: pointer;
+    background: var(--touche); border: 1px solid var(--bord); border-radius: 10px; padding: 10px 14px;
+    transition: background .15s, border-color .15s;
+  }
+  button:hover { border-color: var(--cyan); }
+  button.principal { width: 100%; background: linear-gradient(135deg, #1aa6d6, #6b4dff); border: 0; }
+  button.principal:hover { filter: brightness(1.1); }
+  .ligne { display: flex; gap: 8px; }
+  .ligne > * { flex: 1; }
+
+  /* La manette : croix, A, B et logo, qui s'allument quand leur mot arrive. */
+  .manette { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 10px; }
+  .croix { display: grid; grid-template-columns: repeat(3, 34px); grid-template-rows: repeat(3, 34px); gap: 3px; }
+  .croix .t { border-radius: 7px; }
+  #t-haut { grid-area: 1 / 2; } #t-gauche { grid-area: 2 / 1; } #t-droite { grid-area: 2 / 3; } #t-bas { grid-area: 3 / 2; }
+  .croix .centre { grid-area: 2 / 2; background: var(--touche); border-radius: 7px; }
+  .actions { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .rond { width: 44px; height: 44px; border-radius: 50%; font: 12px "Press Start 2P", monospace; }
+  #t-menu { justify-self: center; width: 54px; height: 26px; border-radius: 13px; font-size: 11px; font-weight: 600; }
+  .t {
+    display: flex; align-items: center; justify-content: center; color: var(--doux);
+    background: var(--touche); border: 1px solid var(--bord); font-size: 11px;
+    transition: background .06s, color .06s, box-shadow .06s;
+  }
+  .t.on { background: var(--cyan); color: #04121a; box-shadow: 0 0 14px var(--cyan); border-color: var(--cyan); }
+  #t-A.on { background: var(--rose); box-shadow: 0 0 14px var(--rose); border-color: var(--rose); }
+  #t-B.on { background: var(--vert); box-shadow: 0 0 14px var(--vert); border-color: var(--vert); }
+  .aide { margin: 12px 0 0; font-size: 12px; color: var(--doux); line-height: 1.5; }
+
+  /* Ce que le jeu envoie à la manette : les derniers mots, le plus récent en premier. */
+  #flux { display: flex; flex-wrap: wrap; gap: 6px; min-height: 30px; }
+  #flux span {
+    font: 11px "Press Start 2P", monospace; padding: 7px 9px; border-radius: 8px;
+    background: #2b1d3f; color: var(--rose); border: 1px solid #5a2d63; animation: arrive .25s ease-out;
+  }
+  #flux span:not(:first-child) { opacity: .45; }
+  #flux .vide { font: 12px Inter, sans-serif; color: var(--doux); background: none; border: 0; padding: 7px 0; animation: none; opacity: 1; }
+  @keyframes arrive { from { transform: scale(1.3); } to { transform: scale(1); } }
+
+  input {
+    width: 100%; padding: 10px 12px; margin-bottom: 8px; border-radius: 10px; font: 13px Inter, sans-serif;
+    background: var(--fond); color: var(--texte); border: 1px solid var(--bord);
+  }
+  input:focus { outline: none; border-color: var(--cyan); }
+  #journal { font: 12px ui-monospace, monospace; color: var(--doux); white-space: pre-line; }
+  #journal:empty { display: none; }
+  .alerte {
+    margin-top: 12px; padding: 10px 12px; border-radius: 10px; font-size: 13px; line-height: 1.45;
+    background: #3a2410; color: #ffc46b; border: 1px solid #7a4a17;
+  }
+  .alerte[hidden] { display: none; }
+
+  @media (max-width: 900px) {
+    main { flex-direction: column; align-items: center; }
+    aside { width: 100%; max-width: 640px; }
+    #console { height: auto; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>MANETTE <span>ARCADE</span></h1>
+  <span class="pastille" id="etat">Manette non connectée</span>
+</header>
+<main>
+  <div id="cadre"><div id="console"><iframe id="jeu" allow="autoplay" scrolling="no"></iframe></div></div>
+  <aside>
+    <section class="carte">
+      <h2>Manette</h2>
+      <div class="manette">
+        <div class="croix">
+          <div class="t" id="t-haut">▲</div>
+          <div class="t" id="t-gauche">◀</div>
+          <div class="centre"></div>
+          <div class="t" id="t-droite">▶</div>
+          <div class="t" id="t-bas">▼</div>
+        </div>
+        <div class="t" id="t-menu">menu</div>
+        <div class="actions">
+          <div class="t rond" id="t-A">A</div>
+          <div class="t rond" id="t-B">B</div>
+        </div>
+      </div>
+      <p class="aide">Penche le micro:bit pour diriger, A et B pour agir, touche le logo pour le menu.</p>
+      <div class="ligne" style="margin-top:14px">
+        <button class="principal" id="connecter">Connecter la manette</button>
+      </div>
+      <div class="alerte" id="alerte" hidden>Des lettres se perdent : un onglet MakeCode est sans doute encore connecté au micro:bit. Ferme-le, ou clique sur <b>⋯</b> à côté de <b>Télécharger</b> → <b>Déconnecter</b>.</div>
+      <div id="journal"></div>
+    </section>
+
+    <section class="carte">
+      <h2>Le jeu envoie à la manette</h2>
+      <div id="flux"><span class="vide">Rien pour l'instant</span></div>
+    </section>
+
+    <section class="carte">
+      <h2>Jeu</h2>
+      <input id="lien" value="https://arcade.makecode.com/_6XEcLbKsE53d" placeholder="Colle ici le lien de partage de ton jeu" aria-label="Lien du jeu Arcade">
+      <div class="ligne">
+        <button id="charger">Charger</button>
+        <button id="plein">Plein écran</button>
+      </div>
+    </section>
+  </aside>
+</main>
+<script>
+// Les mots de la manette, et le bit de chaque bouton dans le message envoyé au jeu.
+const BOUTONS = { gauche: 1, droite: 2, haut: 4, bas: 8, A: 16, B: 32, menu: 64 };
+const MAINTIEN = 100; // ms : un bouton reste enfoncé tant que son mot arrive (cinq tours de la manette à 20 ms)
+window.vu = {};
+const vu = window.vu;
+
+function idDuLien(lien) {
+  const m = lien.match(/(_[A-Za-z0-9]{10,}|S?\d{5}-\d{5}-\d{5}-\d{5})/);
+  return m ? m[1] : null;
+}
+function charger() {
+  const id = idDuLien(document.getElementById("lien").value);
+  if (!id) return alert("Lien de partage non reconnu");
+  document.getElementById("jeu").src = "https://arcade.makecode.com/---run?id=" + id;
+}
+document.getElementById("charger").onclick = charger;
+document.getElementById("lien").addEventListener("keydown", (e) => { if (e.key === "Enter") charger(); });
+document.getElementById("plein").onclick = async () => {
+  await document.getElementById("cadre").requestFullscreen();
+  document.getElementById("jeu").focus(); // pour que le clavier aille au jeu
+};
+charger();
+
+// Envoi au simulateur, le cadre à l'intérieur du lecteur Arcade.
+function envoyer(octet) {
+  const lecteur = document.getElementById("jeu").contentWindow;
+  if (!lecteur || !lecteur.frames.length) return;
+  lecteur.frames[0].postMessage({ type: "messagepacket", channel: "manette", data: new Uint8Array([octet]) }, "*");
+}
+// Envoi à chaque changement, et toutes les 300 ms pour un jeu qui redémarre : l'extension ignore les répétitions.
+// L'appui part dès que le mot arrive ; la minuterie de 10 ms ne sert qu'à voir le relâchement.
+let dernier = 0, dernierEnvoi = 0;
+function majEtat() {
+  const maintenant = performance.now();
+  let octet = 0;
+  for (const [m, bit] of Object.entries(BOUTONS)) {
+    const on = maintenant - (vu[m] || -1e9) < MAINTIEN;
+    if (on) octet |= bit;
+    document.getElementById("t-" + m).classList.toggle("on", on);
+  }
+  // Sans manette, on n'envoie rien : le jeu garde ses sons et se joue au clavier.
+  if (portActif && (octet !== dernier || maintenant - dernierEnvoi > 300)) { envoyer(octet); dernier = octet; dernierEnvoi = maintenant; }
+}
+setInterval(majEtat, 10);
+
+// Lecture série du micro:bit (Chrome ou Edge).
+const journal = [];
+function noter(ligne) { journal.push(ligne); if (journal.length > 3) journal.shift(); document.getElementById("journal").textContent = journal.join("\n"); }
+// Des mots tronqués en série, c'est presque toujours un autre onglet (MakeCode) qui lit le même micro:bit.
+let inconnus = [], masquage = null;
+function signalerInconnu() {
+  const maintenant = performance.now();
+  inconnus = inconnus.filter((t) => maintenant - t < 2000);
+  inconnus.push(maintenant);
+  if (inconnus.length >= 3) document.getElementById("alerte").hidden = false;
+  clearTimeout(masquage);
+  masquage = setTimeout(() => { document.getElementById("alerte").hidden = true; }, 5000);
+}
+// Connexion : un seul port à la fois, rouvert tout seul au rechargement si Chrome l'a déjà autorisé.
+let portActif = null;
+function etat(texte, genre) {
+  const p = document.getElementById("etat");
+  p.textContent = texte;
+  p.className = "pastille" + (genre ? " " + genre : "");
+  document.getElementById("connecter").textContent = genre === "ok" ? "Manette connectée" : "Connecter la manette";
+}
+async function brancher(port) {
+  if (portActif === port) return;
+  try {
+    if (!port.readable) await port.open({ baudRate: 115200 });
+  } catch (e) {
+    return etat("micro:bit déjà utilisé : ferme l'onglet MakeCode", "err");
+  }
+  portActif = port;
+  ecrivain = port.writable.getWriter();
+  etat("Manette connectée", "ok");
+  const lecteur = port.readable.pipeThrough(new TextDecoderStream()).getReader();
+  let reste = "";
+  try {
+    while (true) {
+      const { value, done } = await lecteur.read();
+      if (done) break;
+      reste += value;
+      const lignes = reste.split(/\r?\n/);
+      reste = lignes.pop();
+      for (const l of lignes) {
+        const mot = l.trim();
+        if (mot in BOUTONS) { vu[mot] = performance.now(); majEtat(); }
+        else if (mot) { noter("mot inconnu : " + mot); signalerInconnu(); }
+      }
+    }
+  } catch (e) { /* débranché */ }
+  portActif = null; ecrivain = null;
+  etat("Manette débranchée", "err");
+}
+document.getElementById("connecter").onclick = async () => {
+  if (!("serial" in navigator)) return alert("Ce navigateur ne sait pas lire le micro:bit : ouvre la page dans Chrome ou Edge.");
+  if (portActif) return;
+  try {
+    brancher(await navigator.serial.requestPort({ filters: [{ usbVendorId: 0x0d28 }] }));
+  } catch (e) { /* fenêtre fermée sans choisir */ }
+};
+if ("serial" in navigator) {
+  navigator.serial.getPorts().then((ports) => { if (ports.length) brancher(ports[0]); });
+  navigator.serial.addEventListener("connect", (e) => { if (!portActif) brancher(e.target); });
+} else {
+  etat("Navigateur incompatible : Chrome ou Edge", "err");
+}
+
+// Du jeu vers la manette : chaque mot envoyé par « manette envoyer » part sur la liaison série.
+let ecrivain = null;
+const encodeur = new TextEncoder();
+window.envoisManette = [];
+function afficherMot(mot) {
+  const flux = document.getElementById("flux");
+  flux.querySelector(".vide")?.remove();
+  const s = document.createElement("span");
+  s.textContent = mot;
+  flux.prepend(s);
+  while (flux.children.length > 6) flux.lastChild.remove();
+}
+window.addEventListener("message", (e) => {
+  const d = e.data;
+  if (!d || d.type !== "messagepacket" || d.channel !== "manette-retour" || !d.data) return;
+  // Le lecteur Arcade transmet chaque message deux fois ; la copie relayée porte srcFrameIndex.
+  if (d.srcFrameIndex !== undefined) return;
+  const mot = new TextDecoder().decode(d.data);
+  window.envoisManette.push(mot);
+  afficherMot(mot);
+  if (ecrivain) ecrivain.write(encodeur.encode(mot + "\n")).catch(() => {});
+});
+</script>
+</body>
+</html>

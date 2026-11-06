@@ -1,0 +1,48 @@
+// Auto-generated code. Do not edit.
+namespace myTiles {
+    //% fixedInstance jres blockIdentity=images._tile
+    export const transparency16 = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const sol = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const terre = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const brique = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const piece = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const lave = image.ofBuffer(hex``);
+    //% fixedInstance jres blockIdentity=images._tile
+    export const drapeau = image.ofBuffer(hex``);
+
+    helpers._registerFactory("tilemap", function(name: string) {
+        switch(helpers.stringTrim(name)) {
+            case "niveau1":return tiles.createTilemap(hex`280008000200000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000300030000000000000000000000000000000000000200000000000000000003030300000000000202020202000000000000000300030000000005000002000000000000000202020202000000000000000000000300000000020202020200000000010000020000000300000000000000000000000000000002020200000000000000000000000000000100000101010101010101010000000101010101010404040404040101010100000101010404040401010106060606060606060604040406060606060606060606060606060606040406060606060606060606`, img`
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 . .
+2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 . .
+2 2 2 2 2 2 2 2 2 . . . 2 2 2 2 2 2 . . . . . . 2 2 2 2 . . 2 2 2 . . . . 2 2 2
+2 2 2 2 2 2 2 2 2 . . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 . . 2 2 2 2 2 2 2 2 2 2
+`, [myTiles.transparency16,myTiles.sol,myTiles.brique,myTiles.piece,myTiles.lave,myTiles.drapeau,myTiles.terre], TileScale.Sixteen);
+        }
+        return null;
+    })
+
+    helpers._registerFactory("tile", function(name: string) {
+        switch(helpers.stringTrim(name)) {
+            case "transparency16":return transparency16;
+            case "sol":return sol;
+            case "terre":return terre;
+            case "brique":return brique;
+            case "piece":return piece;
+            case "lave":return lave;
+            case "drapeau":return drapeau;
+        }
+        return null;
+    })
+
+}
+// Auto-generated code. Do not edit.
