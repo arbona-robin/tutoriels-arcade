@@ -14,7 +14,7 @@ Tu dessines tout toi-même : ton héros, son tir, tes ennemis. Pas d'idée ? Un 
 
 ## Ton héros
 
-- :paper plane: Dans ``||sprites:Sprites||``, glisse ``||variables(sprites):définir vaisseau à sprite de type Player||`` dans ``||loops(noclick):au démarrage||``.
+- :paper plane: Dans ``||sprites:Sprites||``, glisse ``||variables(sprites):définir heros à sprite de type Player||`` dans ``||loops(noclick):au démarrage||``.
 - :mouse pointer: Clique sur le carré gris et dessine ton héros.
 
 Il doit regarder vers la droite : c'est de ce côté qu'il tirera.
@@ -32,7 +32,7 @@ La **Galerie** propose des dessins tout faits. Un dessin à toi rend ton jeu uni
 hint~
 
 ```blockconfig.local
-let vaisseau = sprites.create(img`
+let heros = sprites.create(img`
     . . . . . . . . . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . 8 9 8 8 . . . . . . . .
@@ -49,14 +49,13 @@ let vaisseau = sprites.create(img`
     . . . . 8 9 8 8 . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . . . . . . . . . . . . .
-    
     `, SpriteKind.Player)
 ```
 
 ```blocks
 scene.setBackgroundColor(15)
 // @highlight
-let vaisseau = sprites.create(img`
+let heros = sprites.create(img`
     . . . . . . . . . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . 8 9 8 8 . . . . . . . .
@@ -73,19 +72,20 @@ let vaisseau = sprites.create(img`
     . . . . 8 9 8 8 . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . . . . . . . . . . . . .
-    
     `, SpriteKind.Player)
 ```
 
 ## À gauche de l'écran
 
-- :paper plane: Dans ``||sprites:Sprites||``, ajoute ``||sprites:définir la position de vaisseau à x 20 y 60||``.
+- :paper plane: Dans ``||sprites:Sprites||``, ajoute ``||sprites:définir la position de heros à x 20 y 60||``.
 
-L'écran fait 160 pixels de large et 120 de haut. x 20 place ton héros à gauche.
+![L'écran : x va de 0 à 160 vers la droite, y de 0 à 120 vers le bas. Le point 0, 0 est en haut à gauche.](data:image/png;base64,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)
+
+**x** se compte vers la droite, **y** vers le bas, à partir du coin en haut à gauche.
 
 ```blocks
 scene.setBackgroundColor(15)
-let vaisseau = sprites.create(img`
+let heros = sprites.create(img`
     . . . . . . . . . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . 8 9 8 8 . . . . . . . .
@@ -102,22 +102,22 @@ let vaisseau = sprites.create(img`
     . . . . 8 9 8 8 . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . . . . . . . . . . . . .
-    
     `, SpriteKind.Player)
 // @highlight
-vaisseau.setPosition(20, 60)
+heros.setPosition(20, 60)
 ```
 
 ## De haut en bas
 
-- :game: Dans ``||controller:Contrôleur||``, ajoute ``||controller:déplacer vaisseau avec les boutons vx 0 vy 100||``.
-- :paper plane: Dans ``||sprites:Sprites||``, ajoute ``||sprites:définir vaisseau rester à l'écran ON||``.
+- :game: Dans ``||controller:Contrôleur||``, ajoute ``||controller:déplacer heros avec les boutons vx 0 vy 100||``.
 
-**vx** vaut 0 : ton héros ne va ni à gauche ni à droite. Il ne bouge que de haut en bas, avec les flèches.
+**vx** vaut 0 : ton héros ne va ni à gauche ni à droite. Il ne bouge que de haut en bas.
+
+Essaie avec les flèches du clavier : monte tout en haut. Que se passe-t-il ?
 
 ```blocks
 scene.setBackgroundColor(15)
-let vaisseau = sprites.create(img`
+let heros = sprites.create(img`
     . . . . . . . . . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . 8 9 8 8 . . . . . . . .
@@ -134,29 +134,60 @@ let vaisseau = sprites.create(img`
     . . . . 8 9 8 8 . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . . . . . . . . . . . . .
-    
     `, SpriteKind.Player)
-vaisseau.setPosition(20, 60)
+heros.setPosition(20, 60)
 // @highlight
-controller.moveSprite(vaisseau, 0, 100)
-vaisseau.setStayInScreen(true)
+controller.moveSprite(heros, 0, 100)
+```
+
+## Reste à l'écran
+
+Ton héros sort de l'écran, et tu le perds.
+
+- :paper plane: Dans ``||sprites:Sprites||``, ajoute ``||sprites:définir heros rester à l'écran ON||``.
+
+Essaie de nouveau : il s'arrête au bord.
+
+```blocks
+scene.setBackgroundColor(15)
+let heros = sprites.create(img`
+    . . . . . . . . . . . . . . . .
+    . . . . 8 8 8 . . . . . . . . .
+    . . . . 8 9 8 8 . . . . . . . .
+    . . . . 8 9 9 8 8 . . . . . . .
+    . 2 2 . 8 9 9 9 8 8 8 . . . . .
+    . 4 2 8 8 9 9 9 9 9 8 8 8 . . .
+    . 4 4 8 9 9 9 9 9 9 9 9 9 8 8 .
+    . 5 4 8 9 9 9 1 1 9 9 9 9 9 8 8
+    . 5 4 8 9 9 9 1 1 9 9 9 9 9 8 8
+    . 4 4 8 9 9 9 9 9 9 9 9 9 8 8 .
+    . 4 2 8 8 9 9 9 9 9 8 8 8 . . .
+    . 2 2 . 8 9 9 9 8 8 8 . . . . .
+    . . . . 8 9 9 8 8 . . . . . . .
+    . . . . 8 9 8 8 . . . . . . . .
+    . . . . 8 8 8 . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    `, SpriteKind.Player)
+heros.setPosition(20, 60)
+controller.moveSprite(heros, 0, 100)
+// @highlight
+heros.setStayInScreen(true)
 ```
 
 ## Le tir
 
 - :game: Dans ``||controller:Contrôleur||``, sors ``||controller:quand bouton A est appuyé||``.
-- :paper plane: Dedans, mets ``||variables(sprites):définir tir à projectile depuis vaisseau avec vx 150 vy 0||``.
+- :paper plane: Dedans, mets ``||variables(sprites):définir tir à projectile depuis heros avec vx 150 vy 0||``.
 - :mouse pointer: Clique sur le carré gris et dessine ton tir : petit, 3 ou 4 pixels de haut.
 
 Essaie : la touche **espace** du clavier est le bouton A.
 
 ```blockconfig.local
 let tir = sprites.createProjectileFromSprite(img`
-        . 5 5 .
-        5 4 4 5
-        . 5 5 .
-        
-        `, vaisseau, 150, 0)
+    . 5 5 .
+    5 4 4 5
+    . 5 5 .
+    `, heros, 150, 0)
 ```
 
 ```blocks
@@ -166,8 +197,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . 5 5 .
         5 4 4 5
         . 5 5 .
-        
-        `, vaisseau, 150, 0)
+        `, heros, 150, 0)
 })
 ```
 
@@ -190,7 +220,6 @@ let ennemi = sprites.create(img`
     2 2 2 2 2 2 2 2
     . 2 . 2 2 . 2 .
     2 . . . . . . 2
-        
     `, SpriteKind.Enemy)
 ennemi.setPosition(160, randint(10, 110))
 ```
@@ -207,7 +236,6 @@ game.onUpdateInterval(900, function () {
         2 2 2 2 2 2 2 2
         . 2 . 2 2 . 2 .
         2 . . . . . . 2
-        
         `, SpriteKind.Enemy)
     ennemi.setPosition(160, randint(10, 110))
 })
@@ -245,7 +273,6 @@ game.onUpdateInterval(900, function () {
         2 2 2 2 2 2 2 2
         . 2 . 2 2 . 2 .
         2 . . . . . . 2
-        
         `, SpriteKind.Enemy)
     ennemi.setPosition(160, randint(10, 110))
     // @highlight
@@ -258,14 +285,14 @@ game.onUpdateInterval(900, function () {
 ## Touché !
 
 - :paper plane: Dans ``||sprites:Sprites||``, sors ``||sprites:quand sprite de type Projectile chevauche otherSprite de type Enemy||``.
-- :paper plane: Dedans, mets ``||sprites:détruire sprite||`` : le tir disparaît.
-- :paper plane: Puis ``||sprites:détruire otherSprite avec l'effet feu pendant 200 ms||`` : l'ennemi explose.
-
-**sprite** est le tir, **otherSprite** l'ennemi touché.
+- :paper plane: Dedans, mets ``||sprites:détruire sprite||`` : **sprite** est le tir, il disparaît.
+- :paper plane: Ajoute un second ``||sprites:détruire sprite||``, et clique sur son **+** : choisis l'effet **feu**, pendant **200** ms.
+- :mouse pointer: Glisse le **otherSprite** rouge, en haut du bloc **quand**, à la place de **sprite** dans ce second **détruire** : **otherSprite** est l'ennemi touché, il explose.
 
 ```blockconfig.local
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+})
 sprites.destroy(sprite)
-sprites.destroy(otherSprite, effects.fire, 200)
 ```
 
 ```blocks
@@ -287,17 +314,16 @@ Teste après chaque retouche : un ennemi trop sombre sur un fond sombre ne se vo
 
 ## Bravo @showdialog
 
-Ton premier jeu de tir marche. Clique sur **Terminé**, puis, en haut de l'écran, sur **Partager** : copie le lien de ton jeu et garde-le. Il te permettra de retrouver ton jeu.
+Ton premier jeu de tir marche. Clique sur **Terminé**, puis, en haut de l'écran, sur **Partager** : donne un nom à ton jeu et copie son lien. Pas besoin de compte. Ce lien te permet de rouvrir ton jeu sur n'importe quel ordinateur.
 
 ```blockconfig.global
-let vaisseau: Sprite = null
-vaisseau.setPosition(20, 60)
-controller.moveSprite(vaisseau, 0, 100)
-vaisseau.setStayInScreen(true)
+let heros: Sprite = null
+heros.setPosition(20, 60)
+controller.moveSprite(heros, 0, 100)
+heros.setStayInScreen(true)
 let tir = sprites.createProjectileFromSprite(img`
-        . 5 5 .
-        5 4 4 5
-        . 5 5 .
-        
-        `, vaisseau, 150, 0)
+    . 5 5 .
+    5 4 4 5
+    . 5 5 .
+    `, heros, 150, 0)
 ```

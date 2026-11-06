@@ -1,5 +1,13 @@
 # Jeu de tir à la manette
 
+## La skillmap des séances 1 à 3
+
+`../../tir-1.md` est généré par `construire-tir-1.py` à partir de `s1.ts.txt` (le programme de référence de la séance 1, à renommer en `s1.ts` à côté du script), `tir-1.gif` (filmé avec `s1-demo.ts.txt`, pilote automatique) et `axes.png` (dessiné depuis `axes.svg`). Les images sont intégrées au tutoriel.
+
+Chaque publication : nouveau tag et même version dans `pxt.json`, puis ouvrir `https://www.makecode.com/api/gh/arbona-robin/tutoriels-arcade/refs?nocache=1` pour que MakeCode voie le tag.
+
+## Le jeu complet
+
 Le jeu que construisent les jeunes pendant les séances communes. Publié : https://arcade.makecode.com/_6XEcLbKsE53d (dépendances : l'extension manette, et `arcade-background-scroll` pour le décor qui défile).
 
 - A tire, B active un bouclier de 2 secondes (piste « aller plus loin »).

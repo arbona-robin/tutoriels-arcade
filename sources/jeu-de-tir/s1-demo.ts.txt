@@ -1,5 +1,5 @@
 scene.setBackgroundColor(15)
-let vaisseau = sprites.create(img`
+let heros = sprites.create(img`
     . . . . . . . . . . . . . . . .
     . . . . 8 8 8 . . . . . . . . .
     . . . . 8 9 8 8 . . . . . . . .
@@ -17,15 +17,15 @@ let vaisseau = sprites.create(img`
     . . . . 8 8 8 . . . . . . . . .
     . . . . . . . . . . . . . . . .
     `, SpriteKind.Player)
-vaisseau.setPosition(20, 60)
-controller.moveSprite(vaisseau, 0, 100)
-vaisseau.setStayInScreen(true)
+heros.setPosition(20, 60)
+controller.moveSprite(heros, 0, 100)
+heros.setStayInScreen(true)
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     let tir = sprites.createProjectileFromSprite(img`
         . 5 5 .
         5 4 4 5
         . 5 5 .
-        `, vaisseau, 150, 0)
+        `, heros, 150, 0)
 })
 game.onUpdateInterval(900, function () {
     let ennemi = sprites.create(img`
@@ -51,10 +51,10 @@ game.onUpdate(function () {
     let cibles = sprites.allOfKind(SpriteKind.Enemy)
     if (cibles.length > 0) {
         let cible = cibles[0]
-        if (cible.y > vaisseau.y + 2) {
-            vaisseau.y += 2
-        } else if (cible.y < vaisseau.y - 2) {
-            vaisseau.y += -2
+        if (cible.y > heros.y + 2) {
+            heros.y += 2
+        } else if (cible.y < heros.y - 2) {
+            heros.y += -2
         }
     }
 })

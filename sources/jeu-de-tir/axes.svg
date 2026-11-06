@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="440" height="330" viewBox="0 0 440 330" font-family="Helvetica, Arial, sans-serif">
+  <rect width="440" height="330" fill="#ffffff"/>
+  <rect x="60" y="50" width="320" height="240" fill="#1b1b1b" stroke="#3a3a3a" stroke-width="3"/>
+  <!-- axe x -->
+  <line x1="60" y1="32" x2="392" y2="32" stroke="#e8590c" stroke-width="4"/>
+  <polygon points="402,32 388,24 388,40" fill="#e8590c"/>
+  <text x="404" y="38" font-size="20" font-weight="bold" fill="#e8590c">x</text>
+  <text x="54" y="22" font-size="16" fill="#333">0</text>
+  <text x="358" y="22" font-size="16" fill="#333">160</text>
+  <!-- axe y -->
+  <line x1="42" y1="50" x2="42" y2="302" stroke="#1971c2" stroke-width="4"/>
+  <polygon points="42,312 34,298 50,298" fill="#1971c2"/>
+  <text x="34" y="328" font-size="20" font-weight="bold" fill="#1971c2">y</text>
+  <text x="14" y="290" font-size="16" fill="#333">120</text>
+  <!-- origine -->
+  <circle cx="60" cy="50" r="6" fill="#f08c00"/>
+  <text x="70" y="72" font-size="15" fill="#ffffff">0, 0</text>
+  <!-- héros en x 20 y 60 -->
+  <circle cx="100" cy="170" r="10" fill="#4dabf7"/>
+  <line x1="60" y1="170" x2="88" y2="170" stroke="#adb5bd" stroke-width="2" stroke-dasharray="5 4"/>
+  <line x1="100" y1="50" x2="100" y2="158" stroke="#adb5bd" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="116" y="176" font-size="17" fill="#ffffff">x 20, y 60</text>
+</svg>
