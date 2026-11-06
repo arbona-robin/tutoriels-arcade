@@ -65,8 +65,11 @@ Tu dessines tout toi-même : ton héros, son tir, tes ennemis. Pas d'idée ? Un 
 
 ## Ton héros
 
-- :paper plane: Dans ``||sprites:Sprites||``, glisse ``||variables(sprites):définir heros à sprite de type Player||`` dans ``||loops(noclick):au démarrage||``.
+- :paper plane: Dans ``||sprites:Sprites||``, glisse ``||variables(sprites):définir mySprite à sprite de type Player||`` dans ``||loops(noclick):au démarrage||``.
+- :mouse pointer: Clique sur la petite flèche de **mySprite**, puis sur **Renommer la variable...**, et appelle-la **heros**.
 - :mouse pointer: Clique sur le carré gris et dessine ton héros.
+
+Une **variable** est un nom qui te permet de retrouver ton héros dans les autres blocs.
 
 Il doit regarder vers la droite : c'est de ce côté qu'il tirera.
 
@@ -81,10 +84,6 @@ Il doit regarder vers la droite : c'est de ce côté qu'il tirera.
 La **Galerie** propose des dessins tout faits. Un dessin à toi rend ton jeu unique.
 
 hint~
-
-```blockconfig.local
-{CREA}
-```
 
 {blocs(BASE, hl(CREA))}
 
@@ -135,14 +134,27 @@ Essaie : la touche **espace** du clavier est le bouton A.
 ## Les ennemis arrivent
 
 - :circle: Dans ``||game:Jeu||``, sors ``||game:quand mise à jour du jeu chaque 900 ms||``.
-- :paper plane: Dedans, mets ``||variables(sprites):définir ennemi à sprite de type Enemy||`` et dessine ton ennemi.
+- :paper plane: Dedans, mets ``||variables(sprites):définir mySprite à sprite de type Player||``.
+- :mouse pointer: Clique sur la petite flèche de **mySprite**, puis sur **Nouvelle variable...**, et appelle-la **ennemi**.
+- :mouse pointer: Choisis **Enemy** à la place de **Player**, et dessine ton ennemi.
 - :paper plane: Ajoute ``||sprites:définir la position de ennemi à x 160 y||``.
 - :calculator: Pour **y**, prends ``||math:choisir aléatoirement entre 10 et 110||`` dans ``||math:Maths||``.
 
 Un ennemi apparaît toutes les 900 ms, au bord droit, à une hauteur différente à chaque fois.
 
+~hint Pourquoi une nouvelle variable ? 💡
+
+---
+
+Si l'ennemi prenait la variable **heros**, chaque nouvel ennemi prendrait la place de ton héros dans la variable : les flèches et le tir passeraient au dernier ennemi créé.
+
+Une variable par chose que tu dois retrouver plus tard. Tous les ennemis peuvent partager **ennemi** : on ne s'en sert qu'au moment où on les crée.
+
+hint~
+
 ```blockconfig.local
-{ENNEMI_CREA}
+let ennemi: Sprite = null
+ennemi.setPosition(160, randint(10, 110))
 ```
 
 {blocs(hl(ennemi()))}
