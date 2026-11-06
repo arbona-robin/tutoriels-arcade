@@ -1,0 +1,65 @@
+scene.setBackgroundColor(15)
+let vaisseau = sprites.create(img`
+    . . . . . . . . . . . . . . . .
+    . . . . 8 8 8 . . . . . . . . .
+    . . . . 8 9 8 8 . . . . . . . .
+    . . . . 8 9 9 8 8 . . . . . . .
+    . 2 2 . 8 9 9 9 8 8 8 . . . . .
+    . 4 2 8 8 9 9 9 9 9 8 8 8 . . .
+    . 4 4 8 9 9 9 9 9 9 9 9 9 8 8 .
+    . 5 4 8 9 9 9 1 1 9 9 9 9 9 8 8
+    . 5 4 8 9 9 9 1 1 9 9 9 9 9 8 8
+    . 4 4 8 9 9 9 9 9 9 9 9 9 8 8 .
+    . 4 2 8 8 9 9 9 9 9 8 8 8 . . .
+    . 2 2 . 8 9 9 9 8 8 8 . . . . .
+    . . . . 8 9 9 8 8 . . . . . . .
+    . . . . 8 9 8 8 . . . . . . . .
+    . . . . 8 8 8 . . . . . . . . .
+    . . . . . . . . . . . . . . . .
+    `, SpriteKind.Player)
+vaisseau.setPosition(20, 60)
+controller.moveSprite(vaisseau, 0, 100)
+vaisseau.setStayInScreen(true)
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    let tir = sprites.createProjectileFromSprite(img`
+        . 5 5 .
+        5 4 4 5
+        . 5 5 .
+        `, vaisseau, 150, 0)
+})
+game.onUpdateInterval(900, function () {
+    let ennemi = sprites.create(img`
+        . . 2 2 2 2 . .
+        . 2 2 2 2 2 2 .
+        2 2 1 2 2 1 2 2
+        2 2 f 2 2 f 2 2
+        2 2 2 2 2 2 2 2
+        2 2 2 2 2 2 2 2
+        . 2 . 2 2 . 2 .
+        2 . . . . . . 2
+        `, SpriteKind.Enemy)
+    ennemi.setPosition(160, randint(10, 110))
+    ennemi.vx = -40
+    ennemi.setFlag(SpriteFlag.AutoDestroy, true)
+})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    sprites.destroy(otherSprite, effects.fire, 200)
+})
+// Pilote automatique, pour filmer le GIF seulement
+game.onUpdate(function () {
+    let cibles = sprites.allOfKind(SpriteKind.Enemy)
+    if (cibles.length > 0) {
+        let cible = cibles[0]
+        if (cible.y > vaisseau.y + 2) {
+            vaisseau.y += 2
+        } else if (cible.y < vaisseau.y - 2) {
+            vaisseau.y += -2
+        }
+    }
+})
+let impulsion = false
+game.onUpdateInterval(200, function () {
+    impulsion = !(impulsion)
+    controller.A.setPressed(impulsion)
+})

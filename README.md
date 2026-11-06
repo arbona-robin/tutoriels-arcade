@@ -6,6 +6,7 @@ Tutoriels en français pour le parcours Maker Junior, extension pour jouer avec 
 
 | Tutoriel | Lien |
 |---|---|
+| Skillmap du jeu de tir (séances 1 à 3) | https://arcade.makecode.com/--skillmap#github:arbona-robin/tutoriels-arcade/jeu-de-tir |
 | Jeu de plateforme | https://arcade.makecode.com/?lang=fr#tutorial:https://github.com/arbona-robin/tutoriels-arcade/plateforme |
 
 Un tutoriel par fichier `.md` à la racine, déclaré dans `files` de `pxt.json`. Les fichiers `.ts` du dépôt sont ajoutés au programme de chaque tutoriel : c'est ce qui apporte les blocs Manette. Aucun autre `.ts` ne doit donc traîner dans le dépôt ; le code micro:bit et les sources sont rangés dans des fichiers Markdown ou `.txt`.

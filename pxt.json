@@ -8,7 +8,9 @@
     "files": [
         "README.md",
         "manette.ts",
-        "plateforme.md"
+        "plateforme.md",
+        "jeu-de-tir.md",
+        "tir-1.md"
     ],
     "supportedTargets": [
         "arcade"
