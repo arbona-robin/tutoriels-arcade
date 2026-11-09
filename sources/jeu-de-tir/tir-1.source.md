@@ -8,9 +8,11 @@ scene.setBackgroundColor(15)
 
 Ton héros vole de haut en bas, tire, et détruit les ennemis qui foncent sur lui.
 
-![Le jeu à la fin de la séance](tir-1.gif)
+![Le jeu dans l'espace](tir-1.gif)
 
-Tu dessines tout toi-même : ton héros, son tir, tes ennemis. Pas d'idée ? Un vaisseau spatial.
+![Le même jeu sous la mer](poissons.gif)
+
+Le même jeu, deux thèmes. Tu dessines tout toi-même : ton héros, son tir, tes ennemis. Pas d'idée ? Un vaisseau spatial.
 
 ## Ton héros
 
