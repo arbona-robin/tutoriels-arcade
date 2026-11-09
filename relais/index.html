@@ -159,7 +159,7 @@
 
     <section class="carte">
       <h2>Jeu</h2>
-      <input id="lien" value="https://arcade.makecode.com/_6XEcLbKsE53d" placeholder="Colle ici le lien de partage de ton jeu" aria-label="Lien du jeu Arcade">
+      <input id="lien" value="" placeholder="Colle ici le lien de partage de ton jeu" aria-label="Lien du jeu Arcade">
       <div class="ligne">
         <button id="charger">Charger</button>
         <button id="plein">Plein écran</button>
@@ -178,18 +178,22 @@ function idDuLien(lien) {
   const m = lien.match(/(_[A-Za-z0-9]{10,}|S?\d{5}-\d{5}-\d{5}-\d{5})/);
   return m ? m[1] : null;
 }
-function charger() {
-  const id = idDuLien(document.getElementById("lien").value);
-  if (!id) return alert("Lien de partage non reconnu");
+function charger(auDemarrage) {
+  const lien = document.getElementById("lien").value;
+  const id = idDuLien(lien);
+  if (!id) { if (auDemarrage !== true) alert("Lien de partage non reconnu"); return; }
   document.getElementById("jeu").src = "https://arcade.makecode.com/---run?id=" + id;
+  // Le dernier lien reste dans ce navigateur : recharger la page rouvre le même jeu.
+  try { localStorage.setItem("manette-lien", lien); } catch (e) {}
 }
-document.getElementById("charger").onclick = charger;
+document.getElementById("charger").onclick = () => charger();
 document.getElementById("lien").addEventListener("keydown", (e) => { if (e.key === "Enter") charger(); });
+try { document.getElementById("lien").value = localStorage.getItem("manette-lien") || ""; } catch (e) {}
 document.getElementById("plein").onclick = async () => {
   await document.getElementById("cadre").requestFullscreen();
   document.getElementById("jeu").focus(); // pour que le clavier aille au jeu
 };
-charger();
+charger(true);
 
 // Envoi au simulateur, le cadre à l'intérieur du lecteur Arcade.
 function envoyer(octet) {
