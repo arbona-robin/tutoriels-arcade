@@ -22,6 +22,7 @@ heros.setPosition(20, 60)
 controller.moveSprite(heros, 0, 100)
 heros.setStayInScreen(true)
 info.setLife(3)
+manette.afficher(info.life())
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     let tir = sprites.createProjectileFromSprite(img`
         . 5 5 .

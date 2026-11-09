@@ -55,6 +55,31 @@ Ton jeu va parler à ta manette micro:bit : elle sonne et s'allume quand tu dét
 
 Les blocs sont dans la catégorie **Manette**.
 
+## Au départ
+
+Ta manette affiche tes vies dès que la partie commence.
+
+- :gamepad: Dans ``||manette:Manette||``, prends ``||manette:manette afficher||`` et place-le dans ``||loops(noclick):au démarrage||``, juste sous **définir vie à 3**.
+- :id card: Dans son trou, mets ``||info:vie||`` de ``||info:Info||``.
+
+L'écran de démarrage attend la touche A : quand ce bloc s'exécute, ta manette est déjà branchée.
+
+```blockconfig.local
+manette.afficher(info.life())
+```
+
+```blocks
+game.splash("Mon jeu de tir", "Appuie sur A pour jouer")
+scene.setBackgroundColor(15)
+let heros = sprites.create(img`heros`, SpriteKind.Player)
+heros.setPosition(20, 60)
+controller.moveSprite(heros, 0, 100)
+heros.setStayInScreen(true)
+info.setLife(3)
+// @highlight
+manette.afficher(info.life())
+```
+
 ## Un ennemi détruit
 
 Ta manette félicite chaque ennemi détruit.
