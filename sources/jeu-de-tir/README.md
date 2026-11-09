@@ -2,7 +2,19 @@
 
 ## La skillmap des séances 1 à 3
 
-`../../tir-1.md` est généré par `construire-tir-1.py` à partir de `s1.ts.txt` (le programme de référence de la séance 1, à renommer en `s1.ts` à côté du script), `tir-1.gif` (filmé avec `s1-demo.ts.txt`, pilote automatique) et `axes.png` (dessiné depuis `axes.svg`). Les images sont intégrées au tutoriel.
+Une activité par séance. Le texte et les programmes de chaque activité s'écrivent dans `tir-N.source.md`, en clair. Les dessins des sprites sont dans `images/` : dans les sources, `` img`heros` `` remplace les 16 lignes de pixels. Le GIF d'ouverture et le schéma des axes sont référencés par leur nom de fichier.
+
+```bash
+python3 construire.py      # écrit ../../tir-1.md, ../../tir-2.md…
+```
+
+Le script intègre les dessins et les images aux tutoriels (une image servie ailleurs ne s'affiche pas toujours dans l'éditeur). Ne jamais modifier les `tir-N.md` de la racine : ils sont refaits à chaque construction.
+
+| Fichier | Rôle |
+|---|---|
+| `s1.ts.txt`, `s2.ts.txt` | Le programme de référence à la fin de chaque séance : modèle de départ de l'activité suivante, et programme replié dans le livre |
+| `s1-demo.ts.txt`, `s2-demo.ts.txt` | Le même, avec un pilote automatique, pour filmer le GIF |
+| `axes.svg` | Source du schéma des axes de l'écran (`axes.png`) |
 
 Chaque publication : nouveau tag et même version dans `pxt.json`, puis ouvrir `https://www.makecode.com/api/gh/arbona-robin/tutoriels-arcade/refs?nocache=1` pour que MakeCode voie le tag.
 

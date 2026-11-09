@@ -1,65 +1,14 @@
-"""Construit tir-1.md, l'activité 1 de la skillmap du jeu de tir, à partir de s1.ts.
-
-Usage : python3 construire-tir-1.py [dossier]   (dossier : celui de s1.ts, tir-1.gif, axes.png)
-Les images (GIF d'ouverture, schéma des axes) sont intégrées au tutoriel : une image
-servie ailleurs ne s'affiche pas toujours dans l'éditeur.
-"""
-import base64
-import os
-import re
-import sys
-
-ICI = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(os.path.abspath(__file__))
-code = open(os.path.join(ICI, "s1.ts")).read()
-V, T, E = re.findall(r"img`([^`]*)`", code)
-
-
-def ind(s, n):
-    return "\n".join(" " * n + l.strip() for l in s.strip("\n").split("\n") if l.strip())
-
-
-def data(fichier, mime):
-    return f"data:{mime};base64," + base64.b64encode(open(os.path.join(ICI, fichier), "rb").read()).decode()
-
-
-def hl(s):
-    return "// @highlight\n" + s
-
-
-def blocs(*parts):
-    return "```blocks\n" + "\n".join(parts) + "\n```"
-
-
-BASE = "scene.setBackgroundColor(15)"
-CREA = f"let heros = sprites.create(img`\n{ind(V, 4)}\n    `, SpriteKind.Player)"
-POS = "heros.setPosition(20, 60)"
-MOV = "controller.moveSprite(heros, 0, 100)"
-ECRAN = "heros.setStayInScreen(true)"
-TIR = f"controller.A.onEvent(ControllerButtonEvent.Pressed, function () {{\n    let tir = sprites.createProjectileFromSprite(img`\n{ind(T, 8)}\n        `, heros, 150, 0)\n}})"
-TIR_SEUL = f"let tir = sprites.createProjectileFromSprite(img`\n{ind(T, 4)}\n    `, heros, 150, 0)"
-ENNEMI_CREA = f"let ennemi = sprites.create(img`\n{ind(E, 4)}\n    `, SpriteKind.Enemy)\nennemi.setPosition(160, randint(10, 110))"
-
-
-def ennemi(extra=""):
-    return (f"game.onUpdateInterval(900, function () {{\n    let ennemi = sprites.create(img`\n{ind(E, 8)}\n        `, SpriteKind.Enemy)\n"
-            f"    ennemi.setPosition(160, randint(10, 110)){extra}\n}})")
-
-
-VITESSE = "\n    // @highlight\n    ennemi.vx = -40\n    // @highlight\n    ennemi.setFlag(SpriteFlag.AutoDestroy, true)"
-COLL = ("sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {\n"
-        "    sprites.destroy(sprite)\n    sprites.destroy(otherSprite, effects.fire, 200)\n})")
-
-md = f'''# Ton premier jeu de tir
+# Ton premier jeu de tir
 
 ```template
-{BASE}
+scene.setBackgroundColor(15)
 ```
 
 ## Ton premier jeu de tir @showdialog
 
 Ton héros vole de haut en bas, tire, et détruit les ennemis qui foncent sur lui.
 
-![Le jeu à la fin de la séance]({data("tir-1.gif", "image/gif")})
+![Le jeu à la fin de la séance](tir-1.gif)
 
 Tu dessines tout toi-même : ton héros, son tir, tes ennemis. Pas d'idée ? Un vaisseau spatial.
 
@@ -85,17 +34,26 @@ La **Galerie** propose des dessins tout faits. Un dessin à toi rend ton jeu uni
 
 hint~
 
-{blocs(BASE, hl(CREA))}
+```blocks
+scene.setBackgroundColor(15)
+// @highlight
+let heros = sprites.create(img`heros`, SpriteKind.Player)
+```
 
 ## À gauche de l'écran
 
 - :paper plane: Dans ``||sprites:Sprites||``, ajoute ``||sprites:définir la position de heros à x 20 y 60||``.
 
-![L'écran : x va de 0 à 160 vers la droite, y de 0 à 120 vers le bas. Le point 0, 0 est en haut à gauche.]({data("axes.png", "image/png")})
+![L'écran : x va de 0 à 160 vers la droite, y de 0 à 120 vers le bas. Le point 0, 0 est en haut à gauche.](axes.png)
 
 **x** se compte vers la droite, **y** vers le bas, à partir du coin en haut à gauche.
 
-{blocs(BASE, CREA, hl(POS))}
+```blocks
+scene.setBackgroundColor(15)
+let heros = sprites.create(img`heros`, SpriteKind.Player)
+// @highlight
+heros.setPosition(20, 60)
+```
 
 ## De haut en bas
 
@@ -105,7 +63,13 @@ hint~
 
 Essaie avec les flèches du clavier : monte tout en haut. Que se passe-t-il ?
 
-{blocs(BASE, CREA, POS, hl(MOV))}
+```blocks
+scene.setBackgroundColor(15)
+let heros = sprites.create(img`heros`, SpriteKind.Player)
+heros.setPosition(20, 60)
+// @highlight
+controller.moveSprite(heros, 0, 100)
+```
 
 ## Reste à l'écran
 
@@ -115,7 +79,14 @@ Ton héros sort de l'écran, et tu le perds.
 
 Essaie de nouveau : il s'arrête au bord.
 
-{blocs(BASE, CREA, POS, MOV, hl(ECRAN))}
+```blocks
+scene.setBackgroundColor(15)
+let heros = sprites.create(img`heros`, SpriteKind.Player)
+heros.setPosition(20, 60)
+controller.moveSprite(heros, 0, 100)
+// @highlight
+heros.setStayInScreen(true)
+```
 
 ## Le tir
 
@@ -126,10 +97,15 @@ Essaie de nouveau : il s'arrête au bord.
 Essaie : la touche **espace** du clavier est le bouton A.
 
 ```blockconfig.local
-{TIR_SEUL}
+let tir = sprites.createProjectileFromSprite(img`tir`, heros, 150, 0)
 ```
 
-{blocs(hl(TIR))}
+```blocks
+// @highlight
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    let tir = sprites.createProjectileFromSprite(img`tir`, heros, 150, 0)
+})
+```
 
 ## Les ennemis arrivent
 
@@ -157,7 +133,13 @@ let ennemi: Sprite = null
 ennemi.setPosition(160, randint(10, 110))
 ```
 
-{blocs(hl(ennemi()))}
+```blocks
+// @highlight
+game.onUpdateInterval(900, function () {
+    let ennemi = sprites.create(img`ennemi`, SpriteKind.Enemy)
+    ennemi.setPosition(160, randint(10, 110))
+})
+```
 
 ## Ils foncent sur toi
 
@@ -180,7 +162,16 @@ ennemi.vx = -40
 ennemi.setFlag(SpriteFlag.AutoDestroy, true)
 ```
 
-{blocs(ennemi(VITESSE))}
+```blocks
+game.onUpdateInterval(900, function () {
+    let ennemi = sprites.create(img`ennemi`, SpriteKind.Enemy)
+    ennemi.setPosition(160, randint(10, 110))
+    // @highlight
+    ennemi.vx = -40
+    // @highlight
+    ennemi.setFlag(SpriteFlag.AutoDestroy, true)
+})
+```
 
 ## Touché !
 
@@ -190,12 +181,18 @@ ennemi.setFlag(SpriteFlag.AutoDestroy, true)
 - :mouse pointer: Glisse le **otherSprite** rouge, en haut du bloc **quand**, à la place de **sprite** dans ce second **détruire** : **otherSprite** est l'ennemi touché, il explose.
 
 ```blockconfig.local
-sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {{
-}})
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+})
 sprites.destroy(sprite)
 ```
 
-{blocs(hl(COLL))}
+```blocks
+// @highlight
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    sprites.destroy(otherSprite, effects.fire, 200)
+})
+```
 
 ## Le temps du pixel art
 
@@ -215,8 +212,5 @@ let heros: Sprite = null
 heros.setPosition(20, 60)
 controller.moveSprite(heros, 0, 100)
 heros.setStayInScreen(true)
-{TIR_SEUL}
+let tir = sprites.createProjectileFromSprite(img`tir`, heros, 150, 0)
 ```
-'''
-open(os.path.join(ICI, "tir-1.md"), "w").write(md)
-print("tir-1.md", len(md), "octets")

@@ -13,3 +13,12 @@
 * tags: séance 1
 * url: https://github.com/arbona-robin/tutoriels-arcade/tir-1
 * imageUrl: https://raw.githubusercontent.com/arbona-robin/tutoriels-arcade/main/images/tir-1.gif
+* next: tir-2
+
+### tir-2
+* name: Finis ton jeu
+* type: tutorial
+* description: Un écran de démarrage, un score, des vies, et un décor qui défile derrière ton héros.
+* tags: séance 2
+* url: https://github.com/arbona-robin/tutoriels-arcade/tir-2
+* imageUrl: https://raw.githubusercontent.com/arbona-robin/tutoriels-arcade/main/images/tir-2.gif
