@@ -53,6 +53,26 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     info.changeLifeBy(-1)
     scene.cameraShake(4, 500)
 })
+game.onUpdateInterval(1000, function () {
+    if (Math.percentChance(40)) {
+        let coeur = sprites.create(img`
+            . 2 2 . . 2 2 .
+            2 3 2 2 2 2 2 2
+            2 3 2 2 2 2 2 2
+            2 2 2 2 2 2 2 2
+            . 2 2 2 2 2 2 .
+            . . 2 2 2 2 . .
+            . . . 2 2 . . .
+            `, SpriteKind.Food)
+        coeur.setPosition(160, randint(10, 110))
+        coeur.vx = -30
+        coeur.setFlag(SpriteFlag.AutoDestroy, true)
+    }
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    info.changeLifeBy(1)
+})
 game.onUpdateInterval(3000, function () {
     let decor = sprites.create(img`
         . . . . . . . . . . . . . . . . . . . . . . . .

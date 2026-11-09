@@ -23,7 +23,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 
 ## Finis ton jeu @showdialog
 
-Ton jeu reprend là où tu l'as laissé. Aujourd'hui : un écran de démarrage, un score, des vies, et un décor qui défile derrière ton héros.
+Ton jeu reprend là où tu l'as laissé. Aujourd'hui : un écran de démarrage, un score, des vies, un cœur bonus, et un décor qui défile derrière ton héros.
 
 ![Le jeu à la fin de la séance](tir-2.gif)
 
@@ -113,6 +113,85 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 })
 ```
 
+## Un cœur, de temps en temps
+
+De temps en temps, un cœur bonus traverse l'écran.
+
+- :circle: Dans ``||game:Jeu||``, sors ``||game:quand mise à jour du jeu chaque 1000 ms||``.
+- :random: Dedans, mets ``||logic:si alors||``.
+- :calculator: Dans la condition, mets ``||math:15 % chance||``, de ``||math:Maths||``.
+
+Chaque seconde, le cœur a 15 chances sur 100 d'apparaître.
+
+```blockconfig.local
+game.onUpdateInterval(1000, function () {
+})
+Math.percentChance(15)
+```
+
+```blocks
+// @highlight
+game.onUpdateInterval(1000, function () {
+    // @highlight
+    if (Math.percentChance(15)) {
+    }
+})
+```
+
+## Le cœur traverse l'écran
+
+Le cœur arrive de la droite, comme un ennemi.
+
+- :paper plane: Dans le **si**, mets ``||variables(sprites):définir mySprite à sprite de type Player||``, puis **Nouvelle variable...** : **coeur**.
+- :mouse pointer: Choisis **Food** à la place de **Player**, et dessine un cœur.
+- :paper plane: Ajoute la position (x **160**, y au hasard), ``||sprites:définir coeur vx (vitesse selon x) à -30||``, et la **destruction automatique**.
+
+```blockconfig.local
+let coeur: Sprite = null
+coeur.setPosition(160, randint(10, 110))
+coeur.vx = -30
+coeur.setFlag(SpriteFlag.AutoDestroy, true)
+```
+
+```blocks
+game.onUpdateInterval(1000, function () {
+    if (Math.percentChance(15)) {
+        // @highlight
+        let coeur = sprites.create(img`coeur`, SpriteKind.Food)
+        // @highlight
+        coeur.setPosition(160, randint(10, 110))
+        // @highlight
+        coeur.vx = -30
+        // @highlight
+        coeur.setFlag(SpriteFlag.AutoDestroy, true)
+    }
+})
+```
+
+## Attrape-le !
+
+Ton héros qui touche le cœur gagne une vie.
+
+- :paper plane: Sors ``||sprites:quand sprite de type Player chevauche otherSprite de type Food||``.
+- :paper plane: Dedans, mets ``||sprites:détruire otherSprite||`` et ``||info:modifier la vie de 1||``.
+
+```blockconfig.local
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+})
+sprites.destroy(otherSprite)
+info.changeLifeBy(1)
+```
+
+```blocks
+// @highlight
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSprite) {
+    // @highlight
+    sprites.destroy(otherSprite)
+    // @highlight
+    info.changeLifeBy(1)
+})
+```
+
 ## Le décor
 
 Des planètes, des nuages ou des étoiles vont défiler derrière ton héros.
@@ -183,7 +262,7 @@ game.onUpdateInterval(3000, function () {
 
 Ton jeu est complet. Prends le temps de soigner ton décor.
 
-- :mouse pointer: Retouche ton élément de décor, et change la couleur du fond si besoin.
+- :mouse pointer: Retouche ton cœur et ton élément de décor, et change la couleur du fond si besoin.
 - :mouse pointer: Vérifie que tes ennemis se voient bien devant le décor.
 
 ## Bravo @showdialog
