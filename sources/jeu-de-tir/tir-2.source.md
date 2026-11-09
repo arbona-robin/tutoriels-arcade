@@ -25,7 +25,9 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 
 Ton jeu reprend là où tu l'as laissé. Aujourd'hui : un écran de démarrage, un score, des vies, un cœur bonus, et un décor qui défile derrière ton héros.
 
-![Le jeu à la fin de la séance](tir-2.gif)
+![Le jeu dans l'espace](tir-2.gif)
+
+![Le même jeu sous la mer](poissons-2.gif)
 
 ## L'écran de démarrage
 
