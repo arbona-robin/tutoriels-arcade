@@ -53,6 +53,18 @@
     border-radius: 28px; box-shadow: 0 20px 60px rgba(0, 0, 0, .55), 0 0 0 1px var(--bord);
   }
   #console iframe { border: 0; display: block; width: 100%; height: calc(100% + 40px); }
+  #console { position: relative; background: var(--panneau); }
+  #etat-jeu {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 18px; padding: 24px; text-align: center; color: var(--doux); background: var(--panneau); font-size: 15px;
+  }
+  #etat-jeu[hidden] { display: none; }
+  .tourne {
+    width: 46px; height: 46px; border-radius: 50%;
+    border: 5px solid var(--bord); border-top-color: var(--cyan); animation: tourne .9s linear infinite;
+  }
+  .tourne[hidden] { display: none; }
+  @keyframes tourne { to { transform: rotate(360deg); } }
   #cadre:fullscreen { align-items: center; background: #000; }
   #cadre:fullscreen #console { height: 100vh; border-radius: 0; box-shadow: none; }
 
@@ -126,7 +138,9 @@
   <span class="pastille" id="etat">Manette non connectée</span>
 </header>
 <main>
-  <div id="cadre"><div id="console"><iframe id="jeu" allow="autoplay" scrolling="no"></iframe></div></div>
+  <div id="cadre"><div id="console"><iframe id="jeu" allow="autoplay" scrolling="no"></iframe>
+    <div id="etat-jeu"><div class="tourne" id="tourne" hidden></div><p id="etat-texte">Colle le lien de ton jeu, puis clique sur Charger.</p></div>
+  </div></div>
   <aside>
     <section class="carte">
       <h2>Manette</h2>
@@ -182,11 +196,20 @@ function charger(auDemarrage) {
   const lien = document.getElementById("lien").value;
   const id = idDuLien(lien);
   if (!id) { if (auDemarrage !== true) alert("Lien de partage non reconnu"); return; }
+  // Le lecteur met quelques secondes à compiler le jeu : on le dit, jusqu'à ce qu'il soit chargé.
+  document.getElementById("etat-jeu").hidden = false;
+  document.getElementById("tourne").hidden = false;
+  document.getElementById("etat-texte").textContent = "Chargement du jeu…";
   document.getElementById("jeu").src = "https://arcade.makecode.com/---run?id=" + id;
   // Le dernier lien reste dans ce navigateur : recharger la page rouvre le même jeu.
   try { localStorage.setItem("manette-lien", lien); } catch (e) {}
 }
 document.getElementById("charger").onclick = () => charger();
+document.getElementById("jeu").addEventListener("load", () => {
+  if (!document.getElementById("jeu").src) return;
+  // Le lecteur affiche le jeu un instant après son chargement.
+  setTimeout(() => { document.getElementById("etat-jeu").hidden = true; }, 1500);
+});
 document.getElementById("lien").addEventListener("keydown", (e) => { if (e.key === "Enter") charger(); });
 try { document.getElementById("lien").value = localStorage.getItem("manette-lien") || ""; } catch (e) {}
 document.getElementById("plein").onclick = async () => {
