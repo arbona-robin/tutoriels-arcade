@@ -1,6 +1,6 @@
 {
     "name": "tutoriels-arcade",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "description": "Tutoriels MakeCode Arcade en fran\u00e7ais et extension manette micro:bit",
     "dependencies": {
         "device": "*"
@@ -11,7 +11,8 @@
         "plateforme.md",
         "jeu-de-tir.md",
         "tir-1.md",
-        "tir-2.md"
+        "tir-2.md",
+        "tir-3.md"
     ],
     "supportedTargets": [
         "arcade"
