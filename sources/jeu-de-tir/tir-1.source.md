@@ -14,6 +14,8 @@ Tu dessines tout toi-même : ton héros, son tir, tes ennemis. Pas d'idée ? Un 
 
 ## Ton héros
 
+Crée ton héros et dessine-le.
+
 - :paper plane: Dans ``||sprites:Sprites||``, glisse ``||variables(sprites):définir mySprite à sprite de type Player||`` dans ``||loops(noclick):au démarrage||``.
 - :mouse pointer: Clique sur la petite flèche de **mySprite**, puis sur **Renommer la variable...**, et appelle-la **heros**.
 - :mouse pointer: Clique sur le carré gris et dessine ton héros.
@@ -42,6 +44,8 @@ let heros = sprites.create(img`heros`, SpriteKind.Player)
 
 ## À gauche de l'écran
 
+Place ton héros à gauche de l'écran.
+
 - :paper plane: Dans ``||sprites:Sprites||``, ajoute ``||sprites:définir la position de heros à x 20 y 60||``.
 
 ![L'écran : x va de 0 à 160 vers la droite, y de 0 à 120 vers le bas. Le point 0, 0 est en haut à gauche.](axes.png)
@@ -56,6 +60,8 @@ heros.setPosition(20, 60)
 ```
 
 ## De haut en bas
+
+Fais monter et descendre ton héros avec les flèches.
 
 - :game: Dans ``||controller:Contrôleur||``, ajoute ``||controller:déplacer heros avec les boutons vx 0 vy 100||``.
 
@@ -73,7 +79,7 @@ controller.moveSprite(heros, 0, 100)
 
 ## Reste à l'écran
 
-Ton héros sort de l'écran, et tu le perds.
+Ton héros sort de l'écran : garde-le dedans.
 
 - :paper plane: Dans ``||sprites:Sprites||``, ajoute ``||sprites:définir heros rester à l'écran ON||``.
 
@@ -89,6 +95,8 @@ heros.setStayInScreen(true)
 ```
 
 ## Le tir
+
+Ton héros tire quand tu appuies sur A.
 
 - :game: Dans ``||controller:Contrôleur||``, sors ``||controller:quand bouton A est appuyé||``.
 - :paper plane: Dedans, mets ``||variables(sprites):définir tir à projectile depuis heros avec vx 150 vy 0||``.
@@ -109,6 +117,8 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 
 ## Les ennemis arrivent
 
+Des ennemis apparaissent au bord droit de l'écran.
+
 - :circle: Dans ``||game:Jeu||``, sors ``||game:quand mise à jour du jeu chaque 900 ms||``.
 - :paper plane: Dedans, mets ``||variables(sprites):définir mySprite à sprite de type Player||``.
 - :mouse pointer: Clique sur la petite flèche de **mySprite**, puis sur **Nouvelle variable...**, et appelle-la **ennemi**.
@@ -116,7 +126,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
 - :paper plane: Ajoute ``||sprites:définir la position de ennemi à x 160 y||``.
 - :calculator: Pour **y**, prends ``||math:choisir aléatoirement entre 10 et 110||`` dans ``||math:Maths||``.
 
-Un ennemi apparaît toutes les 900 ms, au bord droit, à une hauteur différente à chaque fois.
+Un ennemi toutes les 900 ms, à une hauteur différente à chaque fois.
 
 ~hint Pourquoi une nouvelle variable ? 💡
 
@@ -142,6 +152,8 @@ game.onUpdateInterval(900, function () {
 ```
 
 ## Ils foncent sur toi
+
+Les ennemis foncent vers ton héros.
 
 - :paper plane: Dans le même bloc, ajoute ``||sprites:définir ennemi vx (vitesse selon x) à -40||``.
 - :paper plane: Puis ``||sprites:définir ennemi destruction automatique ON||``.
@@ -174,6 +186,8 @@ game.onUpdateInterval(900, function () {
 ```
 
 ## Touché !
+
+Un ennemi touché par ton tir explose.
 
 - :paper plane: Dans ``||sprites:Sprites||``, sors ``||sprites:quand sprite de type Projectile chevauche otherSprite de type Enemy||``.
 - :paper plane: Dedans, mets ``||sprites:détruire sprite||`` : **sprite** est le tir, il disparaît.

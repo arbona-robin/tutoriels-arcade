@@ -29,6 +29,8 @@ Ton jeu reprend là où tu l'as laissé. Aujourd'hui : un écran de démarrage, 
 
 ## L'écran de démarrage
 
+Ton jeu s'ouvre sur son titre.
+
 - :circle: Dans ``||game:Jeu||``, prends ``||game:splash||`` et place-le tout en haut de ``||loops(noclick):au démarrage||``.
 - :mouse pointer: Écris le titre de ton jeu, puis **Appuie sur A pour jouer**.
 
@@ -47,9 +49,11 @@ info.setLife(3)
 
 ## Le score
 
-- :id card: Dans ``||info:Info||``, prends ``||info:modifier le score de 1||`` et place-le dans le bloc **quand sprite de type Projectile chevauche otherSprite de type Enemy**, sous les deux **détruire**.
+Chaque ennemi détruit rapporte un point.
 
-Chaque ennemi détruit rapporte un point. Le score s'affiche en haut à droite.
+- :id card: Dans ``||info:Info||``, prends ``||info:modifier le score de 1||`` et place-le à la fin du bloc **quand sprite de type Projectile chevauche otherSprite de type Enemy**.
+
+Le score s'affiche en haut à droite.
 
 ```blocks
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
@@ -61,6 +65,8 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 ```
 
 ## Les vies
+
+Donne trois vies à ton héros.
 
 - :id card: Dans ``||info:Info||``, ajoute ``||info:définir vie à 3||`` à la fin de ``||loops(noclick):au démarrage||``.
 
@@ -78,6 +84,8 @@ info.setLife(3)
 ```
 
 ## Aïe !
+
+Un ennemi qui touche ton héros lui retire une vie.
 
 - :paper plane: Dans ``||sprites:Sprites||``, sors ``||sprites:quand sprite de type Player chevauche otherSprite de type Enemy||``.
 - :paper plane: Dedans, mets ``||sprites:détruire sprite||``, et glisse le **otherSprite** rouge à la place de **sprite** : l'ennemi qui t'a touché disparaît.
@@ -134,7 +142,7 @@ game.onUpdateInterval(3000, function () {
 
 ## Derrière, et sans toucher
 
-Pour l'instant, ton décor passe devant ton héros, et il peut le toucher comme un ennemi.
+Fais passer ton décor derrière ton héros, sans qu'il touche rien.
 
 - :paper plane: Dans le même bloc, ajoute ``||sprites:définir decor z (profondeur) à -1||`` : le décor passe derrière.
 - :paper plane: Ajoute ``||sprites:définir decor fantôme ON||`` : le décor ne touche plus rien.
