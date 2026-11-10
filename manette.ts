@@ -24,14 +24,8 @@ namespace manette {
     // Un bit par bouton, dans l'ordre de la page relais.
     const BOUTONS = [controller.left, controller.right, controller.up, controller.down, controller.A, controller.B, controller.menu]
     let precedent = 0
-    let muet = false
 
     function recevoir(msg: Buffer) {
-        // Manette connectée : les sons, c'est elle qui les joue. Le jeu se tait.
-        if (!muet) {
-            music.setVolume(0)
-            muet = true
-        }
         const etat = msg[0]
         for (let i = 0; i < BOUTONS.length; i++) {
             const bit = 1 << i
