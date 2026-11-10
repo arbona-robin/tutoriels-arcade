@@ -37,7 +37,7 @@ https://github.com/arbona-robin/tutoriels-arcade
 - La manette appuie sur les mêmes boutons que le clavier (`controller.X.setPressed`) : le jeu se programme et se teste au clavier, la manette se branche ensuite sans rien changer.
 - Seuls les boutons qui changent sont touchés : le clavier garde la main sur les autres.
 - Chaque nouvelle scène (écran de démarrage, game over) a ses propres événements : l'extension y rebranche la réception.
-- Au premier message de la manette, le jeu se tait (`music.setVolume(0)`) : les sons, c'est la manette qui les joue.
+- Le jeu garde tous ses sons, musique comprise : la manette ajoute les siens par-dessus, quand le jeu les lui demande (`manette réagir`).
 - Blocs : `manette réagir [bip, bien, mal, alerte, gagne, perdu]`, `manette afficher [0-9]`, et en avancé `manette envoyer [mot]`.
 
 ## Page relais
