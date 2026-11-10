@@ -188,6 +188,20 @@ const MAINTIEN = 100; // ms : un bouton reste enfoncé tant que son mot arrive (
 window.vu = {};
 const vu = window.vu;
 
+// Diagnostic, dans la console du navigateur (F12, onglet Console), préfixé [relais] :
+// chaque mot du jeu vers la manette, chaque début d'appui de la manette, les mots inconnus,
+// et chaque seconde active un bilan : mots par seconde dans chaque sens, écritures en attente.
+const t0 = performance.now();
+const compte = { enAttente: 0, maxEnAttente: 0, inconnus: 0 };
+let seconde = { versManette: 0, deManette: 0 };
+function horodatage() { return ((performance.now() - t0) / 1000).toFixed(3).padStart(8); }
+function diag(sens, texte) { console.log(`[relais] ${horodatage()}  ${sens}  ${texte}`); }
+setInterval(() => {
+  if (seconde.versManette || seconde.deManette || compte.enAttente)
+    console.log(`[relais] ${horodatage()}  bilan  jeu → manette ${seconde.versManette} mots/s · manette → jeu ${seconde.deManette} mots/s · en attente ${compte.enAttente} (max ${compte.maxEnAttente}) · inconnus ${compte.inconnus}`);
+  seconde = { versManette: 0, deManette: 0 };
+}, 1000);
+
 function idDuLien(lien) {
   const m = lien.match(/(_[A-Za-z0-9]{10,}|S?\d{5}-\d{5}-\d{5}-\d{5})/);
   return m ? m[1] : null;
@@ -270,6 +284,7 @@ async function brancher(port) {
   }
   portActif = port;
   ecrivain = port.writable.getWriter();
+  diag("··", "manette connectée");
   etat("Manette connectée", "ok");
   const lecteur = port.readable.pipeThrough(new TextDecoderStream()).getReader();
   let reste = "";
@@ -282,12 +297,18 @@ async function brancher(port) {
       reste = lignes.pop();
       for (const l of lignes) {
         const mot = l.trim();
-        if (mot in BOUTONS) { vu[mot] = performance.now(); majEtat(); }
-        else if (mot) { noter("mot inconnu : " + mot); signalerInconnu(); }
+        if (mot in BOUTONS) {
+          seconde.deManette++;
+          // Une ligne au début de chaque appui seulement : la manette répète son mot toutes les 20 ms.
+          if (!vu[mot] || performance.now() - vu[mot] > MAINTIEN) diag("← manette", mot);
+          vu[mot] = performance.now(); majEtat();
+        }
+        else if (mot) { compte.inconnus++; diag("← INCONNU", JSON.stringify(mot)); noter("mot inconnu : " + mot); signalerInconnu(); }
       }
     }
   } catch (e) { /* débranché */ }
   portActif = null; ecrivain = null;
+  diag("··", "manette débranchée");
   etat("Manette débranchée", "err");
 }
 document.getElementById("connecter").onclick = async () => {
@@ -324,7 +345,12 @@ window.addEventListener("message", (e) => {
   const mot = new TextDecoder().decode(d.data);
   window.envoisManette.push(mot);
   afficherMot(mot);
-  if (ecrivain) ecrivain.write(encodeur.encode(mot + "\n")).catch(() => {});
+  seconde.versManette++;
+  if (!ecrivain) { diag("→ (pas de manette)", mot); return; }
+  // Une écriture encore en attente quand la suivante arrive : le navigateur n'arrive plus à suivre.
+  compte.enAttente++; compte.maxEnAttente = Math.max(compte.maxEnAttente, compte.enAttente);
+  diag("→ manette", mot + (compte.enAttente > 1 ? `   (${compte.enAttente} en attente)` : ""));
+  ecrivain.write(encodeur.encode(mot + "\n")).catch(() => diag("!!", "écriture échouée : " + mot)).finally(() => { compte.enAttente--; });
 });
 </script>
 </body>
