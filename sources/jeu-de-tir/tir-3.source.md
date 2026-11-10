@@ -51,7 +51,7 @@ game.onUpdateInterval(3000, function () {
 
 ## Ta manette réagit @showdialog
 
-Ton jeu va parler à ta manette micro:bit : elle sonne et s'allume quand tu détruis un ennemi, quand tu es touché, et elle affiche tes vies.
+Ton jeu va parler à ta manette micro:bit : elle sonne quand tu tires, quand tu détruis un ennemi, quand tu es touché, et elle affiche tes vies.
 
 Les blocs sont dans la catégorie **Manette**.
 
@@ -78,6 +78,24 @@ heros.setStayInScreen(true)
 info.setLife(3)
 // @highlight
 manette.afficher(info.life())
+```
+
+## Le tir
+
+Ta manette fait bip à chaque tir : tu sais que ton bouton a marché.
+
+- :gamepad: Dans ``||manette:Manette||``, prends ``||manette:manette réagir bip||`` et place-le dans **quand bouton A est appuyé**, sous le tir.
+
+```blockconfig.local
+manette.reagir(ReactionManette.Bip)
+```
+
+```blocks
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    let tir = sprites.createProjectileFromSprite(img`tir`, heros, 150, 0)
+    // @highlight
+    manette.reagir(ReactionManette.Bip)
+})
 ```
 
 ## Un ennemi détruit

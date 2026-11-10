@@ -29,6 +29,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         5 4 4 5
         . 5 5 .
         `, heros, 150, 0)
+    manette.reagir(ReactionManette.Bip)
 })
 game.onUpdateInterval(900, function () {
     let ennemi = sprites.create(img`

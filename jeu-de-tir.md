@@ -27,7 +27,7 @@
 ### tir-3
 * name: Ta manette réagit
 * type: tutorial
-* description: Ton jeu parle à ta manette micro:bit : elle sonne, s'allume et affiche tes vies.
+* description: Ton jeu parle à ta manette micro:bit : elle sonne quand tu tires, quand tu détruis un ennemi, quand tu es touché, et affiche tes vies.
 * tags: séance 3
 * url: https://github.com/arbona-robin/tutoriels-arcade/tir-3
 * imageUrl: https://raw.githubusercontent.com/arbona-robin/tutoriels-arcade/main/images/tir-2.gif
