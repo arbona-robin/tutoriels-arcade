@@ -1,0 +1,62 @@
+// Tape-taupe, version de référence du tutoriel réflexes (blocs uniquement).
+// Une colonne de trois trous : la manette des séances 3 et 5 (haut, bas, A) la joue telle quelle.
+// Seulement les notions nouvelles ; score, sons et écran de démarrage sont laissés au jeune.
+// Les trous sont dessinés dans le fond : un trou dans 53 × 40, l'image agrandie à 160 × 120,
+// copiée-collée bord à bord. Taupe stylisée (un bout arrondi), marteau en bâton (pour la rotation).
+function placerLeMarteau () {
+    marteau.x = 80
+    marteau.y = ligne * 40 + 20
+}
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    ligne = Math.max(0, ligne - 1)
+    placerLeMarteau()
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    ligne = Math.min(2, ligne + 1)
+    placerLeMarteau()
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    marteau.rotationDegrees = 45
+    if (marteau.overlapsWith(taupe)) {
+        sprites.destroy(taupe, effects.confetti, 400)
+    }
+    pause(400)
+    marteau.rotationDegrees = 0
+})
+let taupe: Sprite = null
+let ligne = 0
+let marteau: Sprite = null
+scene.setBackgroundImage(assets.image`terrain`)
+marteau = sprites.create(img`
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    . . e e . .
+    `, SpriteKind.Player)
+marteau.z = 10
+ligne = 1
+placerLeMarteau()
+info.startCountdown(30)
+forever(function () {
+    taupe = sprites.create(img`
+        . . . . f f f f . . . .
+        . . f f f f f f f f . .
+        . f f f f f f f f f f .
+        f f f f f f f f f f f f
+        f f f f f f f f f f f f
+        `, SpriteKind.Enemy)
+    taupe.setPosition(80, randint(0, 2) * 40 + 20)
+    animation.runImageAnimation(taupe, assets.animation`taupe-sort`, 100, false)
+    pause(1200)
+    taupe.setPosition(-100, -100)
+    sprites.destroy(taupe)
+    pause(randint(0, 1000))
+})
