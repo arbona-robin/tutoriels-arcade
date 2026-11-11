@@ -1,0 +1,90 @@
+// Jeu de rythme, version « fonctions » (pour l'animateur, ou un « va plus loin » avancé).
+// Trois pistes (haut, A, bas), une partition écrite avec creerNote, cibles créées par une fonction.
+// Chaque appui coûte 1 point, chaque note touchée en rapporte 2 ; une note qui sort à gauche coûte 1.
+// Notions : fonctions à paramètre (et avec retour pour creerCible), boucle sur tous les sprites d'un type,
+// chevauchement testé à l'instant de l'appui, événement « est détruit ».
+namespace SpriteKind {
+    export const Note = SpriteKind.create()
+    export const Cible = SpriteKind.create()
+}
+function creerCible (ligne: number) {
+    cible = sprites.create(img`
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        . . . . . . . . 4 4 4 4 . . . . . . . .
+        `, SpriteKind.Cible)
+    cible.x = 20
+    cible.y = ligne * 20 - 10
+    return cible
+}
+function creerNote (ligne: number) {
+    note = sprites.create(assets.image`note`, SpriteKind.Note)
+    note.x = 165
+    note.y = ligne * 20 - 10
+    note.vx = -50
+    note.setFlag(SpriteFlag.AutoDestroy, true)
+}
+function frapper (cibleFrappee: Sprite) {
+    info.changeScoreBy(-1)
+    for (let uneNote of sprites.allOfKind(SpriteKind.Note)) {
+        if (uneNote.overlapsWith(cibleFrappee)) {
+            info.changeScoreBy(2)
+            sprites.destroy(uneNote, effects.hearts, 300)
+        }
+    }
+}
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.play(music.tonePlayable(262, music.beat(BeatFraction.Half)), music.PlaybackMode.InBackground)
+    frapper(cibleHaut)
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.play(music.tonePlayable(294, music.beat(BeatFraction.Half)), music.PlaybackMode.InBackground)
+    frapper(cibleMilieu)
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.play(music.tonePlayable(330, music.beat(BeatFraction.Half)), music.PlaybackMode.InBackground)
+    frapper(cibleBas)
+})
+sprites.onDestroyed(SpriteKind.Note, function (sprite) {
+    if (sprite.x < 0) {
+        info.changeScoreBy(-1)
+    }
+})
+let note: Sprite = null
+let cible: Sprite = null
+let cibleHaut: Sprite = null
+let cibleMilieu: Sprite = null
+let cibleBas: Sprite = null
+info.setScore(0)
+scene.setBackgroundImage(assets.image`partition`)
+cibleHaut = creerCible(1)
+cibleMilieu = creerCible(2)
+cibleBas = creerCible(3)
+creerNote(1)
+pause(1000)
+creerNote(2)
+pause(1000)
+creerNote(3)
+pause(2000)
+creerNote(1)
+pause(1000)
+creerNote(2)
+pause(1000)
+creerNote(3)
