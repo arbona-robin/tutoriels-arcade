@@ -1,0 +1,59 @@
+// Jeu de rythme, version de référence du tutoriel (blocs uniquement, une seule fonction).
+// Trois pistes : haut, A, bas, jouables avec la manette des séances 3 et 5 ou trois pads sur P0, P1, P2.
+// Chaque bouton crée un trait « frappe » qui vit 150 ms sur sa piste : c'est la fenêtre de temps.
+// Chaque appui coûte 1 point, chaque note touchée en rapporte 2 ; une note qui sort à gauche coûte 1.
+// Les traits des cibles sont dessinés dans l'image de fond « partition », à x = 20.
+// Notions : fonction à paramètre (la partition), durée de vie, événement « est détruit ».
+namespace SpriteKind {
+    export const Frappe = SpriteKind.create()
+}
+function creerNote (ligne: number) {
+    note = sprites.createProjectileFromSide(assets.image`note`, -50, 0)
+    note.y = ligne * 20 - 10
+}
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.play(music.tonePlayable(262, music.beat(BeatFraction.Half)), music.PlaybackMode.InBackground)
+    info.changeScoreBy(-1)
+    frappe = sprites.create(assets.image`frappe`, SpriteKind.Frappe)
+    frappe.setPosition(20, 10)
+    frappe.lifespan = 150
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.play(music.tonePlayable(294, music.beat(BeatFraction.Half)), music.PlaybackMode.InBackground)
+    info.changeScoreBy(-1)
+    frappe = sprites.create(assets.image`frappe`, SpriteKind.Frappe)
+    frappe.setPosition(20, 30)
+    frappe.lifespan = 150
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    music.play(music.tonePlayable(330, music.beat(BeatFraction.Half)), music.PlaybackMode.InBackground)
+    info.changeScoreBy(-1)
+    frappe = sprites.create(assets.image`frappe`, SpriteKind.Frappe)
+    frappe.setPosition(20, 50)
+    frappe.lifespan = 150
+})
+sprites.onOverlap(SpriteKind.Frappe, SpriteKind.Projectile, function (sprite, otherSprite) {
+    info.changeScoreBy(2)
+    sprites.destroy(otherSprite, effects.hearts, 300)
+    sprites.destroy(sprite)
+})
+sprites.onDestroyed(SpriteKind.Projectile, function (sprite) {
+    if (sprite.x < 0) {
+        info.changeScoreBy(-1)
+    }
+})
+let note: Sprite = null
+let frappe: Sprite = null
+info.setScore(0)
+scene.setBackgroundImage(assets.image`partition`)
+creerNote(1)
+pause(1000)
+creerNote(2)
+pause(1000)
+creerNote(3)
+pause(2000)
+creerNote(1)
+pause(1000)
+creerNote(2)
+pause(1000)
+creerNote(3)
