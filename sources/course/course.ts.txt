@@ -1,0 +1,45 @@
+// Course, version de référence du tutoriel (blocs uniquement).
+// Le décor défile avec l'extension Scroller ; la voiture reste à gauche et monte ou descend.
+// Inertie : tenir A accélère (vitesse - 3 par image, 200 au plus), lâcher ralentit (vitesse + 1 jusqu'à 0).
+// Sortie de route : on lit la couleur du décor sous la voiture.
+//   Scroller dessine l'image à partir de x = décalage, avec une copie juste avant ;
+//   le point x de l'écran est donc le pixel (x - décalage + largeur) % largeur de l'image.
+//   Sans le « + largeur », le résultat devient négatif et la lecture tombe hors de l'image (couleur 0).
+// La console (console.logValue) sert à découvrir le numéro des couleurs : 1 blanc, 15 noir.
+// L'image « route » fait 512 px de large, la route en blanc sur fond noir.
+let vitesse = 0
+let xImage = 0
+let yImage = 0
+let voiture = sprites.create(assets.image`voiture`, SpriteKind.Player)
+voiture.x = 20
+voiture.y = 60
+voiture.setStayInScreen(true)
+scene.setBackgroundImage(assets.image`route`)
+controller.moveSprite(voiture, 0, 50)
+controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
+    voiture.rotationDegrees = -20
+})
+controller.up.onEvent(ControllerButtonEvent.Released, function () {
+    voiture.rotationDegrees = 0
+})
+controller.down.onEvent(ControllerButtonEvent.Pressed, function () {
+    voiture.rotationDegrees = 20
+})
+controller.down.onEvent(ControllerButtonEvent.Released, function () {
+    voiture.rotationDegrees = 0
+})
+game.onUpdate(function () {
+    scroller.scrollBackgroundWithSpeed(vitesse, 0, scroller.BackgroundLayer.Layer0)
+    if (controller.A.isPressed()) {
+        vitesse += -3
+        vitesse = Math.max(vitesse, -200)
+    } else {
+        vitesse += 1
+        vitesse = Math.min(vitesse, 0)
+    }
+    xImage = (voiture.x - scroller.getBackgroundXOffset() + scene.backgroundImage().width) % scene.backgroundImage().width
+    yImage = voiture.y
+    if (scene.backgroundImage().getPixel(xImage, yImage) == 15) {
+        game.gameOver(false)
+    }
+})
